@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzx.maven.dao.PictureMapper" >
+
+    <resultMap id="BaseResultMap" type="com.hzx.maven.entity.Picture" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="pic_name" property="picName" jdbcType="VARCHAR" />
+        <result column="pic_file_path" property="picFilePath" jdbcType="VARCHAR" />
+        <result column="pic_update_time" property="picUpdateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, pic_name, pic_file_path, pic_update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from tb_picture
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAllPicture" resultMap="BaseResultMap" >
+        select
+        *
+        from tb_picture
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from tb_picture
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.hzx.maven.entity.Picture" >
+        insert into tb_picture (id, pic_name, pic_file_path, 
+            pic_update_time)
+        values (#{id,jdbcType=INTEGER}, #{picName,jdbcType=VARCHAR}, #{picFilePath,jdbcType=VARCHAR}, 
+            #{picUpdateTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.hzx.maven.entity.Picture" >
+        insert into tb_picture
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="picName != null" >
+                pic_name,
+            </if>
+            <if test="picFilePath != null" >
+                pic_file_path,
+            </if>
+            <if test="picUpdateTime != null" >
+                pic_update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="picName != null" >
+                #{picName,jdbcType=VARCHAR},
+            </if>
+            <if test="picFilePath != null" >
+                #{picFilePath,jdbcType=VARCHAR},
+            </if>
+            <if test="picUpdateTime != null" >
+                #{picUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hzx.maven.entity.Picture" >
+        update tb_picture
+        <set >
+            <if test="picName != null" >
+                pic_name = #{picName,jdbcType=VARCHAR},
+            </if>
+            <if test="picFilePath != null" >
+                pic_file_path = #{picFilePath,jdbcType=VARCHAR},
+            </if>
+            <if test="picUpdateTime != null" >
+                pic_update_time = #{picUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.hzx.maven.entity.Picture" >
+        update tb_picture
+        set pic_name = #{picName,jdbcType=VARCHAR},
+            pic_file_path = #{picFilePath,jdbcType=VARCHAR},
+            pic_update_time = #{picUpdateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

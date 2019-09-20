@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzx.maven.dao.AdminMapper" >
+
+    <resultMap id="BaseResultMap" type="com.hzx.maven.entity.Admin" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="ad_username" property="adUsername" jdbcType="VARCHAR" />
+        <result column="ad_pass" property="adPass" jdbcType="VARCHAR" />
+        <result column="ad_zctime" property="adZctime" jdbcType="DATE" />
+    </resultMap>
+
+    <sql id="selectSql">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="id != null">id= #{id}</if>
+            <if test="adUsername != null and adUsername != ''">AND ad_username = #{adUsername} </if>
+            <if test="adPass != null">AND ad_pass = #{adPass} </if>
+        </trim>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, ad_username, ad_pass, ad_zctime
+    </sql>
+
+    <select id="selectAdmin" resultMap="BaseResultMap" parameterType="com.hzx.maven.entity.Admin" >
+        select 
+        <include refid="Base_Column_List" />
+        from tb_admin
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="selectAllAdmins" resultMap="BaseResultMap" parameterType="com.hzx.maven.entity.Admin" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_admin
+        <include refid="selectSql"/>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="com.hzx.maven.entity.Admin" >
+        delete from tb_admin
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.hzx.maven.entity.Admin" >
+        insert into tb_admin (id, ad_username, ad_pass, 
+            ad_zctime)
+        values (#{id,jdbcType=INTEGER}, #{adUsername,jdbcType=VARCHAR}, #{adPass,jdbcType=VARCHAR}, 
+            #{adZctime,jdbcType=DATE})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.hzx.maven.entity.Admin">
+        insert into tb_admin
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="adUsername != null" >
+                ad_username,
+            </if>
+            <if test="adPass != null" >
+                ad_pass,
+            </if>
+            <if test="adZctime != null" >
+                ad_zctime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="adUsername != null" >
+                #{adUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="adPass != null" >
+                #{adPass,jdbcType=VARCHAR},
+            </if>
+            <if test="adZctime != null" >
+                #{adZctime,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hzx.maven.entity.Admin" >
+        update tb_admin
+        <set >
+            <if test="adUsername != null" >
+                ad_username = #{adUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="adPass != null" >
+                ad_pass = #{adPass,jdbcType=VARCHAR},
+            </if>
+            <if test="adZctime != null" >
+                ad_zctime = #{adZctime,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.hzx.maven.entity.Admin" >
+        update tb_admin
+        set ad_pass = #{adPass,jdbcType=VARCHAR},
+            ad_zctime = #{adZctime,jdbcType=DATE}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,30 @@
+*{margin: 0px;padding: 0px;}
+#divTop{width:100%;overflow: hidden;border-bottom: #CCCCCC 1px solid;}
+#divTopMain {width: 1280px;height: 80px; margin: 0px auto;overflow: hidden;padding-top: 10px;}
+#divLogo{height: 60px;width: 60px;margin-right: 20px;float:left;}
+#imgLogo{height: 60px;width: 60px;}
+#divTitle{line-height: 60px;font-size: 22pt;font-family: MicrosoftYaHei;float:left;font-weight: bolder;}
+#divUser{float: right;overflow: hidden;padding-top: 10px;text-align: right;}
+.aUser{height: 40px;padding-left:15px;padding-right:15px;width:fit-content;background-color: #0e90d2;text-align: center;line-height:40px;display: block;font-size: 10pt;color: white; text-decoration: none;float: left;}
+.aUserOut{height: 40px;padding-left:15px;padding-right:15px;width:fit-content;background-color: #ff0000;text-align: center;line-height:40px;display: block;font-size: 10pt;color: white; text-decoration: none;margin-left: 5px;float: left;}
+#divLink{height: 60px;float: left;line-height: 60px;overflow: hidden;margin-left: 130px;}
+#divLink ul{padding:0;margin:0;list-style:none;}
+#divLink ul li{display: block;float: left;margin-left: 20px;height: 50px;}
+#divLink ul li:hover{border-bottom: #666666 1px solid;}
+#divLink ul li a{display:block;height:100px;padding-right: 20px;padding-left: 20px;color: #aaaaaa;text-decoration: none;font-size: 14pt;}
+#divLink ul li a:hover{color: #666666;}
+#divPage{width: 100%;overflow: hidden;background-color: #efefef;}
+#divText{height: 50px;text-align: center;line-height: 30px;border-top: #efefef 1px solid;background-color: white;margin-bottom: 20px;padding: 10px;color: #0e90d2;font-weight: bolder;}
+#divBookTitle{text-align: center;line-height: 50px;font-family: "微软雅黑", MicrosoftYaHei;font-size: 24pt;}
+#divBook{width: 1280px;height: 700px;overflow: hidden;padding: 25px;margin: 0px auto;}
+#bookLeft{float: left;width: 750px;margin-right: 20px;background-color: white;height: 650px;}
+#bookright{float: left;width: 400px;background-color: white;height: 650px;}
+#divfoot{color: white;line-height: 50px;text-align: center;border-top: #c85e0b 5px solid;background-color: #666666;}
+h3{padding-left: 25px;background-image: url("../images/h3.png");background-repeat: repeat-y;margin: 20px;font-size: 12pt;border-bottom: #0e90d2 1px solid;line-height: 30px;}
+#ulType{padding:0;margin:0;list-style:none;padding-top: 30px;}
+#ulType li{width: 100%;padding-left: 50px;}
+#ulType li a{background-repeat:no-repeat;background-image:url("../images/type2.png");display:block;line-height: 50px;padding-right: 20px;padding-left: 80px;color: #aaaaaa;text-decoration: none;font-size: 12pt;margin-bottom: 5px;}
+#ulType li a:hover{color: #666666;background-image:url("../images/type1.png")}
+
+
+

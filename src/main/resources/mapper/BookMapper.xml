@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzx.maven.dao.BookMapper" >
+  <resultMap id="BaseResultMap" type="com.hzx.maven.entity.Book" >
+    <id column="BOOKID" property="bookid" jdbcType="INTEGER" />
+    <result column="BOOKNAME" property="bookname" jdbcType="VARCHAR" />
+    <result column="TYPEID" property="typeid" jdbcType="INTEGER" />
+    <result column="CASEID" property="caseid" jdbcType="INTEGER" />
+    <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="VARCHAR" />
+    <result column="BORROWSUM" property="borrowsum" jdbcType="INTEGER" />
+    <result column="CONCERN" property="concern" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <resultMap id="WithAllResultMap" type="com.hzx.maven.entity.Book" >
+    <id column="BOOKID" property="bookid" jdbcType="INTEGER" />
+    <result column="BOOKNAME" property="bookname" jdbcType="VARCHAR" />
+    <result column="TYPEID" property="typeid" jdbcType="INTEGER" />
+    <result column="CASEID" property="caseid" jdbcType="INTEGER" />
+    <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="VARCHAR" />
+    <result column="BORROWSUM" property="borrowsum" jdbcType="INTEGER" />
+    <result column="CONCERN" property="concern" jdbcType="VARCHAR" />
+    <association property="booktype" javaType="com.hzx.maven.entity.BookType">
+  		<id column="TYPEID"  property="typeid" />
+  		<result column="TYPENAME" property="typename"/>
+  		<result column="BORROWDAY" property="borrowday"/>
+      		
+  	</association>
+  	 <association property="bookcase" javaType="com.hzx.maven.entity.BookCase">
+  		<id column="CASEID"  property="caseid" />
+  		<result column="CASENAME" property="casename"/>
+  		
+      		
+  	</association>
+    
+    
+  </resultMap>
+  
+  
+  
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BOOKID, BOOKNAME, TYPEID, CASEID, AUTHOR, PRICE, BORROWSUM, CONCERN
+  </sql>
+  
+  <sql id="WithAll_Column_List" >
+   b.BOOKID, b.BOOKNAME, b.TYPEID, b.CASEID, b.AUTHOR, b.PRICE, b.BORROWSUM, b.CONCERN,t.TYPENAME,t.BORROWDAY,c.CASENAME
+  </sql>
+  
+  <!-- List<Reader> selectByExampleWithReaderType(ReaderExample example);
+
+Reader selectByPrimaryKeyWithReaderType(Integer id); -->
+  
+  <select id="selectByExampleWithAll" resultMap="WithAllResultMap">
+  	 select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="WithAll_Column_List" />
+    FROM tb_book b 
+    LEFT OUTER JOIN tb_booktype t on b.TYPEID=t.TYPEID
+    LEFT OUTER JOIN tb_bookcase c on b.CASEID=c.CASEID
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+   <!--  
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    -->
+      order by b.BOOKID
+
+  </select>
+  <select id="selectByPrimaryKeyWithAll" resultMap="WithAllResultMap">
+  	 select 
+    <include refid="WithAll_Column_List" />
+     FROM tb_book b 
+    LEFT OUTER JOIN tb_booktype t on b.TYPEID=t.TYPEID 
+    LEFT OUTER JOIN tb_bookcase c on b.CASEID=c.CASEID 
+    where BOOKID = #{bookid,jdbcType=INTEGER}
+
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hzx.maven.entity.BookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectBooks" resultMap="WithAllResultMap" parameterType="com.hzx.maven.entity.Book" >
+    select
+    <include refid="WithAll_Column_List" />
+    FROM tb_book b
+    LEFT OUTER JOIN tb_booktype t on b.TYPEID=t.TYPEID
+    LEFT OUTER JOIN tb_bookcase c on b.CASEID=c.CASEID
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      <if test="bookname != null and bookname != ''">AND b.bookname like '%${bookname}%' </if>
+      <if test="typeid != null">AND b.typeid = #{typeid} </if>
+    </trim>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_book
+    where BOOKID = #{bookid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_book
+    where BOOKID = #{bookid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hzx.maven.entity.BookExample" >
+    delete from tb_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hzx.maven.entity.Book" >
+    insert into tb_book (BOOKID, BOOKNAME, TYPEID, 
+      CASEID, AUTHOR, PRICE, 
+      BORROWSUM, CONCERN)
+    values (#{bookid,jdbcType=INTEGER}, #{bookname,jdbcType=VARCHAR}, #{typeid,jdbcType=INTEGER}, 
+      #{caseid,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, 
+      #{borrowsum,jdbcType=INTEGER}, #{concern,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzx.maven.entity.Book" >
+    insert into tb_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        BOOKID,
+      </if>
+      <if test="bookname != null" >
+        BOOKNAME,
+      </if>
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="caseid != null" >
+        CASEID,
+      </if>
+      <if test="author != null" >
+        AUTHOR,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="borrowsum != null" >
+        BORROWSUM,
+      </if>
+      <if test="concern != null" >
+        CONCERN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookid != null" >
+        #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="bookname != null" >
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="caseid != null" >
+        #{caseid,jdbcType=INTEGER},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowsum != null" >
+        #{borrowsum,jdbcType=INTEGER},
+      </if>
+      <if test="concern != null" >
+        #{concern,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hzx.maven.entity.BookExample" resultType="java.lang.Integer" >
+    select count(*) from tb_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_book
+    <set >
+      <if test="record.bookid != null" >
+        BOOKID = #{record.bookid,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookname != null" >
+        BOOKNAME = #{record.bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeid != null" >
+        TYPEID = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.caseid != null" >
+        CASEID = #{record.caseid,jdbcType=INTEGER},
+      </if>
+      <if test="record.author != null" >
+        AUTHOR = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=VARCHAR},
+      </if>
+      <if test="record.borrowsum != null" >
+        BORROWSUM = #{record.borrowsum,jdbcType=INTEGER},
+      </if>
+      <if test="record.concern != null" >
+        CONCERN = #{record.concern,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_book
+    set BOOKID = #{record.bookid,jdbcType=INTEGER},
+      BOOKNAME = #{record.bookname,jdbcType=VARCHAR},
+      TYPEID = #{record.typeid,jdbcType=INTEGER},
+      CASEID = #{record.caseid,jdbcType=INTEGER},
+      AUTHOR = #{record.author,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=VARCHAR},
+      BORROWSUM = #{record.borrowsum,jdbcType=INTEGER},
+      CONCERN = #{record.concern,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzx.maven.entity.Book" >
+    update tb_book
+    <set >
+      <if test="bookname != null" >
+        BOOKNAME = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        TYPEID = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="caseid != null" >
+        CASEID = #{caseid,jdbcType=INTEGER},
+      </if>
+      <if test="author != null" >
+        AUTHOR = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowsum != null" >
+        BORROWSUM = #{borrowsum,jdbcType=INTEGER},
+      </if>
+      <if test="concern != null" >
+        CONCERN = #{concern,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BOOKID = #{bookid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzx.maven.entity.Book" >
+    update tb_book
+    set BOOKNAME = #{bookname,jdbcType=VARCHAR},
+      TYPEID = #{typeid,jdbcType=INTEGER},
+      CASEID = #{caseid,jdbcType=INTEGER},
+      AUTHOR = #{author,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=VARCHAR},
+      BORROWSUM = #{borrowsum,jdbcType=INTEGER},
+      CONCERN = #{concern,jdbcType=VARCHAR}
+    where BOOKID = #{bookid,jdbcType=INTEGER}
+  </update>
+</mapper>

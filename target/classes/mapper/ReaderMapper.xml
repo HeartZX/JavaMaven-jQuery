@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzx.maven.dao.ReaderMapper" >
+  <resultMap id="BaseResultMap" type="com.hzx.maven.entity.Reader" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="READERNAME" property="readername" jdbcType="VARCHAR" />
+    <result column="READER_TYPEID" property="readerTypeid" jdbcType="INTEGER" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+ <resultMap id="WithReaderTypeResultMap" type="com.hzx.maven.entity.Reader" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="READERNAME" property="readername" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+     <result column="READER_TYPEID" property="readerTypeid" jdbcType="INTEGER" />
+    <association property="readertype" javaType="com.hzx.maven.entity.ReaderType">
+  		<id column="READER_TYPEID"  property="readerTypeid" />
+  		<result column="TYPENAME" property="typename"/>
+  		<result column="NUM" property="num"/>
+  		
+  	</association>
+  </resultMap>
+  
+  
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    ID, READERNAME, READER_TYPEID, SEX, TEL, EMAIL, REMARK
+  </sql>
+  
+  <sql id="WithReaderType_Column_List" >
+    r.ID, r.READERNAME, r.READER_TYPEID, r.SEX, r.TEL, r.EMAIL, r.REMARK,t.TYPENAME,t.NUM
+  </sql>
+
+  <sql id="selectSql">
+    <trim prefix="AND" prefixOverrides="AND|OR">
+      <if test="id != null">a.id= #{id}</if>
+      <if test="readername != null and readername != ''">AND a.readername = #{readername} </if>
+      <if test="remark != null">AND a.remark = #{remark} </if>
+    </trim>
+  </sql>
+  
+  <!-- List<Reader> selectByExampleWithReaderType(ReaderExample example);
+
+Reader selectByPrimaryKeyWithReaderType(Integer id); -->
+  
+  <select id="selectByExampleWithReaderType" resultMap="WithReaderTypeResultMap">
+  	 select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="WithReaderType_Column_List" />
+    FROM tb_reader r LEFT OUTER JOIN tb_readertype t on r.READER_TYPEID=t.READER_TYPEID
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+   
+
+  </select>
+  <select id="selectByPrimaryKeyWithReaderType" resultMap="WithReaderTypeResultMap">
+  	 select 
+    <include refid="WithReaderType_Column_List" />
+     FROM tb_reader r LEFT OUTER JOIN tb_readertype t on r.READER_TYPEID=t.READER_TYPEID
+    where ID = #{id,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="selectReader" resultMap="WithReaderTypeResultMap">
+    select
+    a.*,b.*
+    FROM tb_reader a,tb_readertype b
+    where a.READER_TYPEID=b.READER_TYPEID
+    <include refid="selectSql" />
+  </select>
+  
+  
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hzx.maven.entity.ReaderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_reader
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_reader
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hzx.maven.entity.ReaderExample" >
+    delete from tb_reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hzx.maven.entity.Reader" >
+    insert into tb_reader (ID, READERNAME, READER_TYPEID, 
+      SEX, TEL, EMAIL, REMARK
+      )
+    values (#{id,jdbcType=INTEGER}, #{readername,jdbcType=VARCHAR}, #{readerTypeid,jdbcType=INTEGER}, 
+      #{sex,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzx.maven.entity.Reader" >
+    insert into tb_reader
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="readername != null" >
+        READERNAME,
+      </if>
+      <if test="readerTypeid != null" >
+        READER_TYPEID,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="tel != null" >
+        TEL,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="readername != null" >
+        #{readername,jdbcType=VARCHAR},
+      </if>
+      <if test="readerTypeid != null" >
+        #{readerTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hzx.maven.entity.ReaderExample" resultType="java.lang.Integer" >
+    select count(*) from tb_reader
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_reader
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.readername != null" >
+        READERNAME = #{record.readername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readerTypeid != null" >
+        READER_TYPEID = #{record.readerTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sex != null" >
+        SEX = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null" >
+        TEL = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_reader
+    set ID = #{record.id,jdbcType=INTEGER},
+      READERNAME = #{record.readername,jdbcType=VARCHAR},
+      READER_TYPEID = #{record.readerTypeid,jdbcType=INTEGER},
+      SEX = #{record.sex,jdbcType=VARCHAR},
+      TEL = #{record.tel,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzx.maven.entity.Reader" >
+    update tb_reader
+    <set >
+      <if test="readername != null" >
+        READERNAME = #{readername,jdbcType=VARCHAR},
+      </if>
+      <if test="readerTypeid != null" >
+        READER_TYPEID = #{readerTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzx.maven.entity.Reader" >
+    update tb_reader
+    set READERNAME = #{readername,jdbcType=VARCHAR},
+      READER_TYPEID = #{readerTypeid,jdbcType=INTEGER},
+      SEX = #{sex,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

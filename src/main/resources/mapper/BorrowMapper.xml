@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzx.maven.dao.BorrowMapper">
+    <resultMap id="BaseResultMap" type="com.hzx.maven.entity.Borrow">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="READER_ID" property="readerId" jdbcType="INTEGER"/>
+        <result column="BOOK_ID" property="bookId" jdbcType="INTEGER"/>
+        <result column="BORROWTIME" property="borrowtime" jdbcType="TIMESTAMP"/>
+        <result column="RETURNTIME" property="returntime" jdbcType="TIMESTAMP"/>
+        <result column="ISRETURN" property="isreturn" jdbcType="BIT"/>
+    </resultMap>
+
+    <resultMap id="selResultMap" type="com.hzx.maven.entity.po.BorrowPo">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="READER_ID" property="readerId" jdbcType="INTEGER"/>
+        <result column="BOOK_ID" property="bookId" jdbcType="INTEGER"/>
+        <result column="BORROWTIME" property="borrowtime" jdbcType="TIMESTAMP"/>
+        <result column="RETURNTIME" property="returntime" jdbcType="TIMESTAMP"/>
+        <result column="ISRETURN" property="isreturn" jdbcType="BIT"/>
+        <result column="borrowNum" property="borrowNum" jdbcType="INTEGER"/>
+        <association property="book" javaType="com.hzx.maven.entity.Book">
+            <result column="BOOKNAME" property="bookname" jdbcType="VARCHAR"/>
+            <result column="TYPEID" property="typeid" jdbcType="INTEGER"/>
+            <result column="CASEID" property="caseid" jdbcType="INTEGER"/>
+            <result column="AUTHOR" property="author" jdbcType="VARCHAR"/>
+            <result column="PRICE" property="price" jdbcType="VARCHAR"/>
+            <result column="BORROWSUM" property="borrowsum" jdbcType="INTEGER"/>
+            <result column="CONCERN" property="concern" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="WithAllResultMap" type="com.hzx.maven.entity.Borrow">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="READER_ID" property="readerId" jdbcType="INTEGER"/>
+        <result column="BOOK_ID" property="bookId" jdbcType="INTEGER"/>
+        <result column="BORROWTIME" property="borrowtime" jdbcType="TIMESTAMP"/>
+        <result column="RETURNTIME" property="returntime" jdbcType="TIMESTAMP"/>
+        <result column="ISRETURN" property="isreturn" jdbcType="BIT"/>
+
+        <association property="reader" javaType="com.hzx.maven.entity.Reader">
+            <id column="ID" property="id" jdbcType="INTEGER"/>
+            <result column="READERNAME" property="readername" jdbcType="VARCHAR"/>
+            <result column="READER_TYPEID" property="readerTypeid" jdbcType="INTEGER"/>
+            <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+            <result column="TEL" property="tel" jdbcType="VARCHAR"/>
+            <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+            <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        </association>
+        <association property="book" javaType="com.hzx.maven.entity.Book">
+            <result column="BOOKNAME" property="bookname" jdbcType="VARCHAR"/>
+            <result column="TYPEID" property="typeid" jdbcType="INTEGER"/>
+            <result column="CASEID" property="caseid" jdbcType="INTEGER"/>
+            <result column="AUTHOR" property="author" jdbcType="VARCHAR"/>
+            <result column="PRICE" property="price" jdbcType="VARCHAR"/>
+            <result column="BORROWSUM" property="borrowsum" jdbcType="INTEGER"/>
+            <result column="CONCERN" property="concern" jdbcType="VARCHAR"/>
+        </association>
+
+
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    ID, READER_ID, BOOK_ID, BORROWTIME, RETURNTIME, ISRETURN
+  </sql>
+
+    <sql id="WithAll_Column_List">
+   j.ID, j.READER_ID, j.BOOK_ID, j.BORROWTIME, j.RETURNTIME, j.ISRETURN ,r.READERNAME,b.BOOKNAME
+  </sql>
+
+    <!-- List<Reader> selectByExampleWithReaderType(ReaderExample example);
+
+  Reader selectByPrimaryKeyWithReaderType(Integer id); -->
+
+    <select id="selectByExampleWithAll" resultMap="WithAllResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="WithAll_Column_List"/>
+        FROM tb_borrow j
+        LEFT OUTER JOIN tb_reader r on j.READER_ID=r.ID
+        LEFT OUTER JOIN tb_book b on j.BOOK_ID=b.BOOKID
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <!--
+        <if test="orderByClause != null" >
+          order by ${orderByClause}
+        </if>
+        -->
+        order by j.ISRETURN,j.RETURNTIME
+    </select>
+    <select id="selectByPrimaryKeyWithAll" resultMap="WithAllResultMap">
+        select
+        <include refid="WithAll_Column_List"/>
+        FROM tb_borrow j
+        LEFT OUTER JOIN tb_reader r on j.READER_ID=r.ID
+        LEFT OUTER JOIN tb_book b on j.BOOK_ID=b.BOOKID
+        where ID = #{id,jdbcType=INTEGER}
+        order by j.ISRETURN,j.RETURNTIME
+    </select>
+
+    <sql id="selectSql">
+        <trim prefix="AND" prefixOverrides="AND|OR">
+            <if test="id != null">a.id= #{id}</if>
+            <if test="readerId != null">AND a.READER_ID = #{readerId}</if>
+            <if test="bookId != null">AND a.BOOK_ID = #{bookId}</if>
+            <if test="isreturn != null">AND a.isreturn = #{isreturn}</if>
+        </trim>
+    </sql>
+
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hzx.maven.entity.BorrowExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tb_borrow
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="getHotBook" resultMap="selResultMap">
+    select
+    a.*,b.*,count(*) as borrowNum
+    from tb_borrow a,tb_book b
+    where a.book_id=b.bookid
+    group by a.BOOK_ID
+	ORDER BY borrowNum DESC
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_borrow
+        where ID = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectInfo" resultMap="WithAllResultMap" parameterType="com.hzx.maven.entity.Borrow">
+        select
+        a.*,b.*,c.*
+        from tb_borrow a,tb_book b,tb_reader c
+        where a.BOOK_ID=b.BOOKID and a.READER_ID=c.ID
+        <include refid="selectSql"/>
+        order by a.ISRETURN,a.RETURNTIME
+    </select>
+
+    <select id="selectUserBorrows" resultMap="WithAllResultMap" parameterType="com.hzx.maven.entity.Borrow">
+        select
+        a.*,b.*,c.*
+        from tb_borrow a,tb_book b,tb_reader c
+        where a.BOOK_ID=b.BOOKID and a.READER_ID=c.ID
+        <include refid="selectSql"/>
+        order by a.ISRETURN,a.RETURNTIME
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_borrow
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.hzx.maven.entity.BorrowExample">
+        delete from tb_borrow
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.hzx.maven.entity.Borrow">
+    insert into tb_borrow (ID, READER_ID, BOOK_ID, 
+      BORROWTIME, RETURNTIME, ISRETURN
+      )
+    values (#{id,jdbcType=INTEGER}, #{readerId,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, 
+      #{borrowtime,jdbcType=TIMESTAMP}, #{returntime,jdbcType=TIMESTAMP}, #{isreturn,jdbcType=BIT}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.hzx.maven.entity.Borrow">
+        insert into tb_borrow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="readerId != null">
+                READER_ID,
+            </if>
+            <if test="bookId != null">
+                BOOK_ID,
+            </if>
+            <if test="borrowtime != null">
+                BORROWTIME,
+            </if>
+            <if test="returntime != null">
+                RETURNTIME,
+            </if>
+            <if test="isreturn != null">
+                ISRETURN,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="readerId != null">
+                #{readerId,jdbcType=INTEGER},
+            </if>
+            <if test="bookId != null">
+                #{bookId,jdbcType=INTEGER},
+            </if>
+            <if test="borrowtime != null">
+                #{borrowtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returntime != null">
+                #{returntime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isreturn != null">
+                #{isreturn,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.hzx.maven.entity.BorrowExample" resultType="java.lang.Integer">
+        select count(*) from tb_borrow
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update tb_borrow
+        <set>
+            <if test="record.id != null">
+                ID = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.readerId != null">
+                READER_ID = #{record.readerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.bookId != null">
+                BOOK_ID = #{record.bookId,jdbcType=INTEGER},
+            </if>
+            <if test="record.borrowtime != null">
+                BORROWTIME = #{record.borrowtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.returntime != null">
+                RETURNTIME = #{record.returntime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.isreturn != null">
+                ISRETURN = #{record.isreturn,jdbcType=BIT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tb_borrow
+        set ID = #{record.id,jdbcType=INTEGER},
+        READER_ID = #{record.readerId,jdbcType=INTEGER},
+        BOOK_ID = #{record.bookId,jdbcType=INTEGER},
+        BORROWTIME = #{record.borrowtime,jdbcType=TIMESTAMP},
+        RETURNTIME = #{record.returntime,jdbcType=TIMESTAMP},
+        ISRETURN = #{record.isreturn,jdbcType=BIT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hzx.maven.entity.Borrow">
+        update tb_borrow
+        <set>
+            <if test="readerId != null">
+                READER_ID = #{readerId,jdbcType=INTEGER},
+            </if>
+            <if test="bookId != null">
+                BOOK_ID = #{bookId,jdbcType=INTEGER},
+            </if>
+            <if test="borrowtime != null">
+                BORROWTIME = #{borrowtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returntime != null">
+                RETURNTIME = #{returntime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isreturn != null">
+                ISRETURN = #{isreturn,jdbcType=BIT},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hzx.maven.entity.Borrow">
+    update tb_borrow
+    set READER_ID = #{readerId,jdbcType=INTEGER},
+      BOOK_ID = #{bookId,jdbcType=INTEGER},
+      BORROWTIME = #{borrowtime,jdbcType=TIMESTAMP},
+      RETURNTIME = #{returntime,jdbcType=TIMESTAMP},
+      ISRETURN = #{isreturn,jdbcType=BIT}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

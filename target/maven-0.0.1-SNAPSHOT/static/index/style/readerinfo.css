@@ -1,0 +1,15 @@
+#infoMain{width: 100%;border-top: #dddddd 1px solid;margin-top: 30px;padding-top: 30px;}
+#infoMain2{width: 100%;margin-top: 30px;padding-top: 30px;}
+#spMasterName{font-size: 30pt;margin-left: 20px;}
+#readername{font-size: 30pt;margin-left: 20px;}
+#spBig2{font-size: 14pt;color: #888888;margin-left: 20px;}
+#infoMainbottom{width: 100%; margin-top: 15px;overflow: hidden;}
+#infoMainLeft{width: 400px;height: 180px;float: left;border-right: #bbbbbb 1px solid;padding-left: 50px;text-align: left;}
+#infoMainRight{width: 400px;height: 180px;float: left;padding-left: 50px;text-align: left;}
+#infoMainLeft div{line-height: 80px;font-size: 14pt;font-weight: bolder;}
+#infoMainLeft div span{font-weight: normal;margin-left: 10px;}
+#infoMainRight div{line-height: 80px;font-size: 14pt;font-weight: bolder;}
+#infoMainRight div span{font-weight: normal;margin-left: 10px;}
+#ReadInfoMain{width: 1000px;background-color: white;height: 450px;margin: 0px auto;padding: 20px;}
+#ReturnMain{width: 1000px;background-color: white;height: 600px;margin: 30px auto;padding: 20px;}
+#divinfo{width: 1280px;height: 1150px;overflow: hidden;padding: 25px;margin: 0 auto;}

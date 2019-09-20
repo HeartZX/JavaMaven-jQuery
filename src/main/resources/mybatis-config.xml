@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<settings>
+		<!-- 设置驼峰规则 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+
+	<!-- 为类取别名 -->
+	<typeAliases>
+		<package name="com.hzx.maven.entity" />
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+		  
+			<property name="reasonable" value="true"/>
+		</plugin>
+	</plugins>
+
+</configuration>

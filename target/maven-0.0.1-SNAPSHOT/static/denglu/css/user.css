@@ -1,0 +1,9 @@
+.main-part{background:url(../img/user_bg.jpg) no-repeat;}
+
+	.login-mod h2{background-position:-252px -36px;}
+
+	.text-mod{position:absolute;left:45px;top:64px;width:274px;height:38px;}
+	.text-mod p{width:100%;height:100%;background:url(../img/user_text.gif) no-repeat;display:none;text-indent:-999em;overflow:hidden;}
+	.text-mod p.text2{background-position:0 -41px;}
+	.text-mod-1 .text1,
+	.text-mod-2 .text2{display:block;}

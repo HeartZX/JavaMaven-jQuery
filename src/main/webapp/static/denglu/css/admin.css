@@ -1,0 +1,18 @@
+.main-part{background:url(../img/admin_bg.jpg) no-repeat;}
+
+	.login-mod h2{background-position:-252px 0;}
+
+	.tab-mod{position:absolute;left:47px;top:84px;width:415px;height:256px;}
+	.tab-mod .cont{position:absolute;left:0;top:0;width:100%;height:100%;visibility:hidden;}
+	.tab-mod .cont h2,
+	.tab-mod .cont p{visibility:hidden;}
+	.tab-mod-1 .c1,
+	.tab-mod-2 .c2{visibility:visible;}
+
+	.tab-mod .c1{background:url(../img/admin_tab1.jpg) no-repeat;}
+	.tab-mod .c2{background:url(../img/admin_tab2.jpg) no-repeat;}
+
+	.tab-mod .tabs{position:absolute;left:36px;bottom:0;color:#8ba6c5;font-size:14px;font-weight:bold;padding:20px 0 20px 20px;width:312px;}
+	.tab-mod .tabs li{float:left;display:inline;width:116px;padding-left:40px;cursor:pointer;}
+	.tab-mod-1 .t1,
+	.tab-mod-2 .t2{color:#fff;}

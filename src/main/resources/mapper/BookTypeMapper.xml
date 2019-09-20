@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzx.maven.dao.BookTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.hzx.maven.entity.BookType" >
+    <id column="TYPEID" property="typeid" jdbcType="INTEGER" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
+    <result column="BORROWDAY" property="borrowday" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TYPEID, TYPENAME, BORROWDAY
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hzx.maven.entity.BookTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_booktype
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_booktype
+    where TYPEID = #{typeid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_booktype
+    where TYPEID = #{typeid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hzx.maven.entity.BookTypeExample" >
+    delete from tb_booktype
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hzx.maven.entity.BookType" >
+    insert into tb_booktype (TYPEID, TYPENAME, BORROWDAY
+      )
+    values (#{typeid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{borrowday,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzx.maven.entity.BookType" >
+    insert into tb_booktype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
+      <if test="typename != null" >
+        TYPENAME,
+      </if>
+      <if test="borrowday != null" >
+        BORROWDAY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowday != null" >
+        #{borrowday,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hzx.maven.entity.BookTypeExample" resultType="java.lang.Integer" >
+    select count(*) from tb_booktype
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_booktype
+    <set >
+      <if test="record.typeid != null" >
+        TYPEID = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.typename != null" >
+        TYPENAME = #{record.typename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.borrowday != null" >
+        BORROWDAY = #{record.borrowday,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_booktype
+    set TYPEID = #{record.typeid,jdbcType=INTEGER},
+      TYPENAME = #{record.typename,jdbcType=VARCHAR},
+      BORROWDAY = #{record.borrowday,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzx.maven.entity.BookType" >
+    update tb_booktype
+    <set >
+      <if test="typename != null" >
+        TYPENAME = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowday != null" >
+        BORROWDAY = #{borrowday,jdbcType=INTEGER},
+      </if>
+    </set>
+    where TYPEID = #{typeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzx.maven.entity.BookType" >
+    update tb_booktype
+    set TYPENAME = #{typename,jdbcType=VARCHAR},
+      BORROWDAY = #{borrowday,jdbcType=INTEGER}
+    where TYPEID = #{typeid,jdbcType=INTEGER}
+  </update>
+</mapper>

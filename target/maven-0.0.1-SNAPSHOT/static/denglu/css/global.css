@@ -1,0 +1,108 @@
+/* reset */
+body{color:#707070;background:#fff;font-family:simsun,sans-serif;line-height:1.666em;}
+body,select,input,button,h1,h2,h3,h4,h5,h6{font-size:12px;}
+body,h1,h2,h3,h4,h5,h6,ul,ol,li,form,p,dl,dt,dd,table,th,td,img,blockquote{margin:0;padding:0;border:0;}
+input,button,textarea,img{line-height:normal;}
+abbr,acronym,address,cite,q,em,code,var,dfn,ins{font-style:normal;text-decoration:none;border:0;}
+q:before,q:after{content:"";}
+ul,ol{list-style:none;}
+table{border-collapse:collapse;border-spacing:0;}
+select,
+button,
+input{vertical-align:middle;}
+.ipt-c,
+.ipt-r{width:16px;height:16px;overflow:hidden;padding:0;margin:0 3px 0 0;}
+
+a{color:#154077;}
+a:hover{text-decoration:underline;}
+
+/* 清除浮动 */
+.header,
+.body,
+.footer,
+.part,
+.clear{+zoom:1;}
+.header:after,
+.body:after,
+.footer:after,
+.part:after,
+.clear:after{clear:both;content:".";font-size:0;display:block;height:0;overflow:hidden;visibility:hidden;}
+
+/* 背景 */
+.sec-mod,
+.sec-mod h2,
+.login-mod .goto,
+.login-mod .ipt-b,
+.login-mod h2,
+.logo span,
+.bg{background-image:url(../img/bg.gif);background-repeat:no-repeat;}
+
+.login-mod .ipt-t,
+.bgx{background-image:url(../img/bgx.gif);background-repeat:repeat-x;}
+
+
+/* 布局 */
+.page{width:950px;margin:auto;}
+
+/* 页头 */
+.header{padding:25px 0;}
+
+	/* Logo */
+	.logo{float:left;}
+	.logo img,
+	.logo span{float:left;display:inline;}
+	.logo img{margin-top:2px;margin-right:15px;}
+	.logo span{width:176px;height:32px;text-indent:-999em;overflow:hidden;}
+
+	/* 顶部链接 */
+	.toplinks{float:right;line-height:32px;}
+	.toplinks,
+	.toplinks a{color:#8e8e8e;}
+	.toplinks a{margin:0 3px;text-decoration:none;}
+	.toplinks a:hover{text-decoration:underline;}
+
+
+/* 主体 */
+.body{}
+
+	/* 主要部分 */
+	.main-part{position:relative;width:950px;height:428px;overflow:hidden;}
+
+		/* 登录框 */
+		.login-mod{position:absolute;top:35px;left:505px;padding:35px 25px;width:363px;height:288px;}
+		.login-mod h2,
+		.login-mod .fi{margin:0 20px;}
+		.login-mod h2{width:151px;height:30px;text-indent:-999em;overflow:hidden;margin-bottom:10px;}
+		.login-mod .fi{padding:10px 0;}
+		.login-mod .fi-notit{padding-left:4em;position:relative;}
+		.login-mod .fi-notit label{margin-right:20px;}
+		.login-mod label.tit{float:left;_margin-right:-3px;width:4em;line-height:29px;color:#000;}
+		.login-mod .ipt-t{width:190px;border:1px solid #7A8395;padding:6px 4px;font-size:14px;margin-right:10px;font-family:Arial,sans-serif;}
+		.login-mod .ipt-sample{color:#788F9E;}
+		.login-mod .ipt-b{width:90px;height:30px;font-size:14px;font-weight:bold;color:#444;padding:0;border:0;background-position:0 -72px;cursor:pointer;}
+		.login-mod .goto{background-position:0 -144px;margin-top:20px;padding:20px 0 0 68px;font-size:14px;}
+		.login-mod .err{position:absolute;width:145px;height:30px;left:154px;_left:106px;top:10px;color:#D80001;line-height:16px;}
+
+	/* 简介、新闻 */
+	.sec-part{padding-top:20px;}
+
+	.sec-mod{width:445px;padding-bottom:20px;line-height:25px;}
+	.sec-mod h2{width:110px;height:36px;text-indent:-999em;overflow:hidden;margin-bottom:10px;}
+
+		/* 公司简介 */
+		.intro-mod{float:left;background-position:350px -252px;}
+		.intro-mod h2{background-position:-144px -72px;}
+
+		/* 公司新闻 */
+		.news-mod{float:right;background-position:45px -360px;}
+		.news-mod h2{background-position:-288px -72px;}
+
+
+/* 页脚 */
+.footer{padding:20px 0;border-top:1px solid #ededed;margin-top:20px;text-align:center;}
+.footer,
+.footer a{color:#8e8e8e;}
+.footer span,
+.footer a{margin:0 10px;text-decoration:none;}
+.footer span{font-family:Arial,sans-serif;}
+.footer a:hover{text-decoration:underline;}

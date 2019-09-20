@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzx.maven.dao.FeedbackMapper" >
+
+    <resultMap id="BaseResultMap" type="com.hzx.maven.entity.Feedback" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="rd_id" property="rdId" jdbcType="INTEGER" />
+        <result column="fb_title" property="fbTitle" jdbcType="VARCHAR" />
+        <result column="fb_text" property="fbText" jdbcType="LONGVARCHAR" />
+        <result column="fb_time" property="fbTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="SelResultMap" type="com.hzx.maven.entity.po.FeedbackPo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="rd_id" property="rdId" jdbcType="INTEGER" />
+        <result column="fb_title" property="fbTitle" jdbcType="VARCHAR" />
+        <result column="fb_text" property="fbText" jdbcType="LONGVARCHAR" />
+        <result column="fb_time" property="fbTime" jdbcType="TIMESTAMP" />
+        <association property="reader" javaType="com.hzx.maven.entity.Reader">
+            <id column="ID" property="id" jdbcType="INTEGER" />
+            <result column="READERNAME" property="readername" jdbcType="VARCHAR" />
+            <result column="READER_TYPEID" property="readerTypeid" jdbcType="INTEGER" />
+            <result column="SEX" property="sex" jdbcType="VARCHAR" />
+            <result column="TEL" property="tel" jdbcType="VARCHAR" />
+            <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+            <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, rd_id, fb_title, fb_text, fb_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from tb_feedback
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAllFeedback" resultMap="SelResultMap">
+        select
+        a.*,b.*
+        from tb_feedback a,tb_reader b
+        where a.rd_id=b.id
+        order by fb_time desc
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from tb_feedback
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.hzx.maven.entity.Feedback" >
+        insert into tb_feedback (id, rd_id, fb_title, 
+            fb_text, fb_time)
+        values (#{id,jdbcType=INTEGER}, #{rdId,jdbcType=INTEGER}, #{fbTitle,jdbcType=VARCHAR}, 
+            #{fbText,jdbcType=LONGVARCHAR}, #{fbTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.hzx.maven.entity.Feedback" >
+        insert into tb_feedback
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="rdId != null" >
+                rd_id,
+            </if>
+            <if test="fbTitle != null" >
+                fb_title,
+            </if>
+            <if test="fbText != null" >
+                fb_text,
+            </if>
+            <if test="fbTime != null" >
+                fb_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="rdId != null" >
+                #{rdId,jdbcType=INTEGER},
+            </if>
+            <if test="fbTitle != null" >
+                #{fbTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="fbText != null" >
+                #{fbText,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="fbTime != null" >
+                #{fbTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hzx.maven.entity.Feedback" >
+        update tb_feedback
+        <set >
+            <if test="rdId != null" >
+                rd_id = #{rdId,jdbcType=INTEGER},
+            </if>
+            <if test="fbTitle != null" >
+                fb_title = #{fbTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="fbText != null" >
+                fb_text = #{fbText,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="fbTime != null" >
+                fb_time = #{fbTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.hzx.maven.entity.Feedback" >
+        update tb_feedback
+        set rd_id = #{rdId,jdbcType=INTEGER},
+            fb_title = #{fbTitle,jdbcType=VARCHAR},
+            fb_text = #{fbText,jdbcType=LONGVARCHAR},
+            fb_time = #{fbTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
